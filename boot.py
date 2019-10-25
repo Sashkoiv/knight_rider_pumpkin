@@ -1,12 +1,9 @@
+# This file is executed on every boot (including wake-boot from deepsleep)
+#import esp
+#esp.osdebug(None)
+import uos, machine
+#uos.dupterm(None, 1) # disable REPL on UART(0)
 import gc
-import uos
-from flashbdev import bdev
-
-try:
-    if bdev:
-        uos.mount(bdev, '/')
-except OSError:
-    import inisetup
-    vfs = inisetup.setup()
-
+#import webrepl
+#webrepl.start()
 gc.collect()
