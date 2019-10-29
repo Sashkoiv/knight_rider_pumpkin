@@ -73,3 +73,31 @@ class HCSR04:
         # 0.034320 cm/us that is 1cm each 29.1us
         cms = (pulse_time / 2) / 29.1
         return cms
+
+    def distance_normal(self, error = 20, qty = 10):
+        """
+        Make multiple measurements and throw away fake values.
+        It returns float
+        """
+        rough = list()
+
+        for i in range(qty):
+            rough.append(distance_cm(self))
+
+        valid_qty = 0
+        sum = 0
+        for i in range(len(rough)-1):
+        if rough[i] <= rough[i+1]:
+            if (rough[i] + rough[i]*error/100) <= rough[i+1]:
+                pass
+            else:
+                sum += rough[i]
+                valid_qty += 1
+        elif rough[i] >= rough[i+1]:
+            if (rough[i] + rough[i]*error/100) >= rough[i+1]:
+                pass
+            else:
+                sum += rough[i]
+                valid_qty += 1
+
+        return sum/valid_qty
