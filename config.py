@@ -1,10 +1,13 @@
 #PIN connections
-PIN_NP = 2
+PIN_EYES = 2
+PIN_MAW = 5
 PIN_HCRS_TRIG = 12
 PIN_HCRS_ECHO = 13
+PIN_AUDIO_BUSY = 0
 
 #LED parameters
-DIODS_NUMBER = 24
+EYES_DIODS_NUMBER = 24
+MAW_DIODS_NUMBER = 16
 MARKER_SIZE = 5
 
 #Red colors intensity
@@ -18,3 +21,7 @@ KILLER_RANGE = 10
 
 #Delays
 IDLE_DELAY = 80
+
+#Audio tracks
+GUARD_DOG = 1
+TAUNT = 2

@@ -31,9 +31,8 @@ class Player():
     def __init__(self, uart=None, busy_pin=None, config=True, volume=0.5):
         self._volume = None
         if uart is None:
-            # self.uart = UART(1, 9600) # UART on
-            self.uart = UART(1, baudrate = 9600, bits = 8, parity = None, stop = 1, tx = 19, rx = 18)
-            # self.uart.init(9600, bits=8, parity=None, stop=1)
+            self.uart = UART(1, 9600) # UART on
+            self.uart.init(9600, bits=8, parity=None, stop=1)
         else:
             self.uart = uart
         if busy_pin is not None:
@@ -123,14 +122,3 @@ class Player():
     def reset(self):
         self.awaitconfig()
         self.command(0x0C, 0x00, 0x00)
-
-def main():
-    from time import sleep
-    player = Player(busy_pin=Pin(0))
-    player.volume(0.5)
-    player.awaitvolume()
-    for folder in range(0,3):
-        for track in range(0, 2):
-            player.play(folder, track)
-            while player.playing():
-                sleep(0.01)
