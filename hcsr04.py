@@ -86,18 +86,18 @@ class HCSR04:
 
         valid_qty = 0
         sum = 0
-    for i in range(len(rough)-1):
-        if rough[i] <= rough[i+1]:
-            if (rough[i] + rough[i]*error/100) <= rough[i+1]:
-                pass
-            else:
-                sum += rough[i]
-                valid_qty += 1
-        elif rough[i] >= rough[i+1]:
-            if (rough[i] + rough[i]*error/100) >= rough[i+1]:
-                pass
-            else:
-                sum += rough[i]
-                valid_qty += 1
+        for i in range(len(rough)-1):
+            if rough[i] <= rough[i+1]:
+                if (rough[i] + rough[i]*error/100) <= rough[i+1]:
+                    pass
+                else:
+                    sum += rough[i]
+                    valid_qty += 1
+            elif rough[i] >= rough[i+1]:
+                if (rough[i] + rough[i]*error/100) >= rough[i+1]:
+                    pass
+                else:
+                    sum += rough[i]
+                    valid_qty += 1
 
         return sum/valid_qty

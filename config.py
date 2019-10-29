@@ -8,9 +8,8 @@ DIODS_NUMBER = 24
 MARKER_SIZE = 5
 
 #Red colors intensity
-BRIGHTEST = (255, 0, 0)
-DIMMEST = (32, 0, 0)
-BASE = (8, 0, 0)
+BRIGHTEST = 255
+BASE = 8
 
 #Range preferences
 SAFE_RANGE = 100

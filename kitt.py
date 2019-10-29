@@ -26,15 +26,17 @@ class KITT():
     def draw_marker(self, led_idx):
         #set field with BASE red color
         for i in range(config.DIODS_NUMBER):
-            self.np[i] = config.BASE
+            self.np[i] = (config.BASE, 0, 0)
 
         if not self.is_reversed:
             for i in range(config.MARKER_SIZE):
-                self.np[led_idx-i] = (config.BRIGHTEST[0] - config.DIMMEST[0]) * i+1
+                color = int(config.BRIGHTEST  * (config.MARKER_SIZE - i) / config.MARKER_SIZE)
+                self.np[led_idx-i] = (color, 0, 0)
         else:
             reversed_i = config.DIODS_NUMBER - 1 - led_idx
             for i in range(config.MARKER_SIZE):
-                self.np[reversed_i+i] = (config.BRIGHTEST[0] - config.DIMMEST[0]) * i+1
+                color = int(config.BRIGHTEST  * (config.MARKER_SIZE - i) / config.MARKER_SIZE)
+                self.np[reversed_i+i] = (color, 0, 0)
 
 
     def run(self):
