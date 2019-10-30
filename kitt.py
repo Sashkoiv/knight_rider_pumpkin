@@ -14,8 +14,11 @@ class KITT():
         self.maw_led = neopixel.NeoPixel(machine.Pin(config.PIN_MAW),
                                          config.MAW_DIODS_NUMBER)
         self.player = Player(busy_pin=machine.Pin(config.PIN_AUDIO_BUSY))
+        self.player.volume(0.8)
+        self.player.awaitvolume()
         self.is_reversed = False
         self.is_killer_mode = False
+        self.playing_f = False
 
 
     #TODO: implement killer mode eyes
@@ -61,23 +64,40 @@ class KITT():
                     self.draw_marker(i)
                 else: #TODO: add more features to killer mode (sound effects, physical actions etc.)
                     self.draw_killer_eyes()
-                
+
                 self.draw_maw(i)
 
                 self.eyes_led.write()
                 self.maw_led.write()
 
                 distance_to_hoe = self.hcsr.distance_cm()
+                #distance_to_hoe = self.hcsr.distance_normal()
+                print("Distance = {}".format(distance_to_hoe))
+
                 delay = config.IDLE_DELAY
                 if distance_to_hoe <= config.KILLER_RANGE and distance_to_hoe >= 0:
-                    self.player.play(1, config.TAUNT)
+                    #print("Inside killer mode")
+                    if not self.playing_f:
+                        self.player.play(1, config.TAUNT)
+                        self.playing_f = True
+
+                    if not self.player.playing():
+                        self.playing_f = False
                     self.is_killer_mode = True
-                    delay = 1
+                    delay = config.KILLER_DELAY
                 else:
                     self.is_killer_mode = False
-                    if distance_to_hoe <= config.SAFE_RANGE and distance_to_hoe >= 0:
-                        self.player.play(1, config.GUARD_DOG)
-                        delay = int(config.IDLE_DELAY * distance_to_hoe / config.SAFE_RANGE)
+                    self.playing_f = False
+                    if distance_to_hoe <= config.ALERT_RANGE and distance_to_hoe > 0:
+                        #print("Inside guard mode")
+                        if not self.playing_f:
+                            self.player.play(1, config.GUARD_DOG)
+                            self.playing_f = True
+
+                        if not self.player.playing():
+                            self.playing_f = False
+
+                        delay = config.ALERT_DELAY
 
                 time.sleep_ms(delay)
 

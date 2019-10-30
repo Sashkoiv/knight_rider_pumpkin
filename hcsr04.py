@@ -82,22 +82,19 @@ class HCSR04:
         rough = list()
 
         for i in range(qty):
-            rough.append(distance_cm(self))
+            rough.append(self.distance_cm())
 
         valid_qty = 0
         sum = 0
-        for i in range(len(rough)-1):
-            if rough[i] <= rough[i+1]:
-                if (rough[i] + rough[i]*error/100) <= rough[i+1]:
-                    pass
-                else:
-                    sum += rough[i]
-                    valid_qty += 1
-            elif rough[i] >= rough[i+1]:
-                if (rough[i] + rough[i]*error/100) >= rough[i+1]:
+        for i in range(1, len(rough)):
+            if 100 > rough[i] > 0:
+                if abs(rough[i]-(rough[i]-1)) > (rough[i]-1)*error/100:
                     pass
                 else:
                     sum += rough[i]
                     valid_qty += 1
 
-        return sum/valid_qty
+        if valid_qty > 0:
+            return sum/valid_qty
+
+        return -1
