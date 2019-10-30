@@ -63,6 +63,16 @@ class Player():
         self.playtime = ticks_ms()
         self.command(0x0F, folderNum, trackNum)
 
+    def stop(self, folderNum, trackNum):
+        # self.awaitconfig()
+        # self.playtime = ticks_ms()
+        self.command(0x16, folderNum, trackNum)
+
+    def pause(self, folderNum, trackNum):
+        # self.awaitconfig()
+        # self.playtime = ticks_ms()
+        self.command(0x0E, folderNum, trackNum)
+
     def finish(self, folderNum, trackNum):
         self.play(folderNum, trackNum)
         while self.playing():
@@ -99,7 +109,7 @@ class Player():
         self.awaitconfig()
         gain = float(clamp(gain, 0, 1.0))
         val = int(30.0 * gain)
-        self.command(0x10,0 ,val)  
+        self.command(0x10,0 ,val)
 
     def volume(self, volume=None):
         self.awaitconfig()
